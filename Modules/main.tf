@@ -30,3 +30,7 @@ module "lnx-vm" {
   source   = "../Infra/vm-linux-instance"
   linux-vm = var.module_vm
 }
+#### TO create sql-db server and database 
+module "sqlserver" {
+  source = "../Infra/sqldb"
+}
