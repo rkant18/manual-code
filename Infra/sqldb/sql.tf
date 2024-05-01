@@ -2,54 +2,57 @@
 #   name     = "innovent_dev_group"
 #   location = "westus"
 # }
-data "azurerm_resource_group" "rg" {
-  name     = "innovent_dev_group"
-}
-data "azurerm_client_config" "current" {
-}
-resource "azurerm_user_assigned_identity" "user_identity" {
-  name                = "sysadmin"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-}
+# data "azurerm_resource_group" "rg" {
+#   name     = "innovent_dev_group"
+# }
+# data "azurerm_client_config" "current" {
+# }
+# resource "azurerm_user_assigned_identity" "user_identity" {
+#   name                = "sysadmin"
+#   location            = data.azurerm_resource_group.rg.location
+#   resource_group_name = data.azurerm_resource_group.rg.name
+# }
 
-resource "azurerm_storage_account" "storageAcc" {
-  name                     = "innoventstg01"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
+# resource "azurerm_storage_account" "storageAcc" {
+#   name                     = "innoventstg01"
+#   location            = data.azurerm_resource_group.rg.location
+#   resource_group_name = data.azurerm_resource_group.rg.name
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
+# }
 
-resource "azurerm_mssql_server" "sqlserver" {
-  name                         = "innovent-sqlserver"
-  resource_group_name          = data.azurerm_resource_group.rg.name
-  location                     = data.azurerm_resource_group.rg.location
-  version                      = "12.0"
-  administrator_login          = "dbadmin"
-  administrator_login_password = "4-v3ry-53cr37-p455w0rd"
-}
+# resource "azurerm_mssql_server" "sqlserver" {
+#   name                         = "innovent-sqlserver"
+#   resource_group_name          = data.azurerm_resource_group.rg.name
+#   location                     = data.azurerm_resource_group.rg.location
+#   version                      = "12.0"
+#   administrator_login          = "dbadmin"
+#   administrator_login_password = "4-v3ry-53cr37-p455w0rd"
+# }
 
-resource "azurerm_mssql_database" "mysqlapp" {
-  name           = "inno-dbs"
-  server_id      = azurerm_mssql_server.sqlserver.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  # license_type   = "LicenseIncluded"
-  #max_size_gb    = 8
-  # read_scale     = 
-  sku_name       = "S0"
-  zone_redundant = false
-  enclave_type   = "VBS"
+# resource "azurerm_mssql_database" "mysqlapp" {
+#   name           = "inno-dbs"
+#   server_id      = azurerm_mssql_server.sqlserver.id
+#   collation      = "SQL_Latin1_General_CP1_CI_AS"
+#   # license_type   = "LicenseIncluded"
+#   #max_size_gb    = 8
+#   # read_scale     = 
+#   sku_name       = "S0"
+#   zone_redundant = false
+#   enclave_type   = "VBS"
 
-  tags = {
-    foo = "bar"
-  }
+#   tags = {
+#     foo = "bar"
+#   }
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.user_identity.id,]
-  }
-}
+#   identity {
+#     type         = "UserAssigned"
+#     identity_ids = [azurerm_user_assigned_identity.user_identity.id,]
+#   }
+# }
+
+
+
 #   transparent_data_encryption_key_vault_key_id = azurerm_key_vault_key.vault_key.id
 
 #   # prevent the possibility of accidental data loss
