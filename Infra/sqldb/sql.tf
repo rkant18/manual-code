@@ -31,7 +31,7 @@ resource "azurerm_mssql_server" "sqlserver" {
 }
 
 resource "azurerm_mssql_database" "mysqlapp" {
-  name           = "inno-dbsosa"
+  name           = "inno-dbs"
   server_id      = azurerm_mssql_server.sqlserver.id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   # license_type   = "LicenseIncluded"
