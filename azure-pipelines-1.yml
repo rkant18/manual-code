@@ -11,7 +11,7 @@ pool:
 
 stages:
   - stage: TerraformInit
-    displayName: TerraformJob
+    displayName: TerraformInit
     jobs:
      - job: job1
        steps:
@@ -43,14 +43,12 @@ stages:
           backendAzureRmStorageAccountName: 'autostore123'
           backendAzureRmContainerName: 'autostate'
           backendAzureRmKey: 'new.tfstate'
-
        - task: TerraformTaskV4@4
-         displayName: TerraformPlanTask
          inputs:
            provider: 'azurerm'
            command: 'plan'
+           workingDirectory: 'Modules'
            environmentServiceNameAzureRM: 'Ravi@akshaysharmaji'
-         
   
   - stage: TerraformApply
     displayName: TerraformApplyTask
