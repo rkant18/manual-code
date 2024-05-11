@@ -1,0 +1,77 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- sanjudada
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: TerraformInit
+    displayName: TerraformInit
+    jobs:
+     - job: job1
+       steps:
+       - task: TerraformTaskV4@4
+         displayName: TerraformInitTask
+         inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: 'Modules'
+          backendServiceArm: 'Ravi@akshaysharmaji'
+          backendAzureRmResourceGroupName: 'automate'
+          backendAzureRmStorageAccountName: 'autostore123'
+          backendAzureRmContainerName: 'autostate'
+          backendAzureRmKey: 'new.tfstate'
+
+  - stage: TerraformPlan
+    displayName: TerraformPlanStage
+    jobs:
+     - job: job1
+       steps:
+       - task: TerraformTaskV4@4
+         displayName: TerraformPlanTaskwithInit
+         inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: 'Modules'
+          backendServiceArm: 'Ravi@akshaysharmaji'
+          backendAzureRmResourceGroupName: 'automate'
+          backendAzureRmStorageAccountName: 'autostore123'
+          backendAzureRmContainerName: 'autostate'
+          backendAzureRmKey: 'new.tfstate'
+       - task: TerraformTaskV4@4
+         inputs:
+           provider: 'azurerm'
+           command: 'plan'
+           workingDirectory: 'Modules'
+           environmentServiceNameAzureRM: 'Ravi@akshaysharmaji'
+  
+  - stage: TerraformApply
+    displayName: TerraformApplyTask
+    jobs:
+     - job: job1
+       steps:
+         
+       - task: TerraformTaskV4@4
+         displayName: TerraformApplyTaskwithInit
+         inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: 'Modules'
+          backendServiceArm: 'Ravi@akshaysharmaji'
+          backendAzureRmResourceGroupName: 'automate'
+          backendAzureRmStorageAccountName: 'autostore123'
+          backendAzureRmContainerName: 'autostate'
+          backendAzureRmKey: 'new.tfstate'
+      
+       - task: TerraformTaskV4@4
+         displayName: TerraformApplyTask
+         inputs:
+           provider: 'azurerm'
+           command: 'apply'
+           workingDirectory: 'Modules'
+           environmentServiceNameAzureRM: 'Ravi@akshaysharmaji'
